@@ -66,10 +66,78 @@ body {
     transform: translate(-60%, -50%);
 }
 
-.top-color{
-  color: rgb(174 72 120 / 60%);
+.top-color {
+    color: rgb(174 72 120 / 60%);
 }
 
-.bottom-color{
-  color: rgba(100, 194, 200, 0.6);
+.bottom-color {
+    color: rgba(100, 194, 200, 0.6);
+}
+
+
+/*
+Dark mode toggle
+
+Copyright (c) 2022 by Álvaro (https://codepen.io/alvarotrigo/pen/zYPydpB)
+Fork of an original work Toggle Switch (https://codepen.io/fydsa/pen/abwdpep
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+:root {
+    --light: #d8dbe0;
+    --dark: #28292c;
+}
+
+#darkModeToggle {
+    position: relative;
+    width: 200px;
+}
+
+#darkModeToggle label {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background-color: var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+#darkModeToggle input {
+    position: absolute;
+    display: none;
+}
+
+#darkModeToggle .slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+#darkModeToggle input:checked~.slider {
+    background-color: var(--light);
+}
+
+#darkModeToggle .slider::before {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 16px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    box-shadow: inset 28px -4px 0px 0px var(--light);
+    background-color: var(--dark);
+    transition: 0.3s;
+}
+
+#darkModeToggle input:checked~.slider::before {
+    transform: translateX(95px);
+    background-color: var(--dark);
+    box-shadow: none;
 }
