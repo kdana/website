@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadTheme() {
     const darkModeToggle = document.getElementById("darkModeToggle");
+    const isLightMode = localStorage.getItem("theme") === "light";
+    darkModeToggle.querySelector('#darkModeToggle input').checked = isLightMode;
 
-    const currentTheme = localStorage.getItem("theme");
-    if (currentTheme !== "light") {
+    if (!isLightMode) {
         document.body.classList.add("dark-mode");
     }
 }
