@@ -16,12 +16,13 @@ function loadTheme() {
     const darkModeToggle = document.getElementById("darkModeToggle");
 
     const currentTheme = localStorage.getItem("theme");
-    if (currentTheme == "dark") {
+    if (currentTheme !== "light") {
         document.body.classList.add("dark-mode");
     }
 }
 
-function toggleTheme() {
+function toggleTheme(event) {
+    event.stopPropagation();
     document.body.classList.toggle("dark-mode");
 
     let theme = "light";
