@@ -19,14 +19,14 @@ function loadTheme() {
     if (currentTheme == "dark") {
         document.body.classList.add("dark-mode");
     }
+}
 
-    darkModeToggle.addEventListener("click", function () {
-        document.body.classList.toggle("dark-mode");
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
 
-        let theme = "light";
-        if (document.body.classList.contains("dark-mode")) {
-            theme = "dark";
-        }
-        localStorage.setItem("theme", theme);
-    });
+    let theme = "light";
+    if (document.body.classList.contains("dark-mode")) {
+        theme = "dark";
+    }
+    localStorage.setItem("theme", theme);
 }
