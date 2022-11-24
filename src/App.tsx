@@ -3,6 +3,8 @@ import DarkModeToggle from "./dark-mode-toggle/DarkModeToggle";
 import logo from "./logo.svg";
 import "./App.css";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
+import PortfolioMenu from "./menu/PortfolioMenu";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function App() {
   /**
@@ -16,32 +18,43 @@ function App() {
   */
   return (
     <div>
-      <ParallaxProvider>
-        <DarkModeToggle />
+      <ThemeProvider theme={darkTheme}>
+        <ParallaxProvider>
+          <PortfolioMenu />
 
-        <div className="parallax__container">
-          <Parallax translateY={[262, -300]}>
-            <h1 className="top-color first-header">WELCOME</h1>
-          </Parallax>
-          <Parallax translateY={[-70, -300]} className="background-text">
-            <h2 className="bottom-color">HELLO WORLD</h2>
-          </Parallax>
-        </div>
+          <div className="parallax__container">
+            <Parallax translateY={[184, -300]}>
+              <h1 className="top-color first-header">WELCOME</h1>
+            </Parallax>
+            <Parallax translateY={[-85, -300]} className="background-text">
+              <h2 className="bottom-color">HELLO WORLD</h2>
+            </Parallax>
+          </div>
 
-        <section className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-              Learn React
-            </a>
-          </header>
-        </section>
-      </ParallaxProvider>
+          <section className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <p>
+                Edit <code>src/App.tsx</code> and save to reload.
+              </p>
+              <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+                Learn React
+              </a>
+            </header>
+          </section>
+        </ParallaxProvider>
+      </ThemeProvider>
     </div>
   );
 }
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#1976d2"
+    }
+  }
+});
 
 export default App;
