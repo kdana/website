@@ -1,21 +1,12 @@
 import React from "react";
-import StorageService from "./../services/StorageService";
+import ThemeService from "../services/ThemeService";
 import "./DarkModeToggle.css";
 import "./../themes/darkMode.css";
 
 interface Props {}
 
-interface State {
-  isLightMode: boolean;
-}
-
-class DarkModeToggle extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isLightMode: this.loadTheme(),
-    };
-  }
+function DarkModeToggle(props: Props) {
+  const [isLightMode] = React.useState(ThemeService.isLightMode());
 
   /**
     Copyright (c) 2022 by Álvaro (https://codepen.io/alvarotrigo/pen/zYPydpB)
@@ -25,32 +16,12 @@ class DarkModeToggle extends React.Component<Props, State> {
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-  render() {
-    return (
-      <div id="darkModeToggle" title="dark mode toggle">
-        <label>
-          <input
-            type="checkbox"
-            defaultChecked={this.state.isLightMode}
-            onChange={(event) => this.toggleTheme(event)}
-          ></input>
-          <span className="slider"></span>
-        </label>
-      </div>
-    );
+
+  if (!isLightMode) {
+    document.body.classList.add("dark-mode");
   }
 
-  loadTheme() {
-    let isLightMode = StorageService.fetch("theme") === "light";
-
-    if (!isLightMode) {
-      document.body.classList.add("dark-mode");
-    }
-
-    return isLightMode;
-  }
-
-  toggleTheme(event: React.ChangeEvent) {
+  const toggleTheme = function (event: React.ChangeEvent) {
     event.stopPropagation();
     document.body.classList.toggle("dark-mode");
 
@@ -58,8 +29,17 @@ class DarkModeToggle extends React.Component<Props, State> {
     if (document.body.classList.contains("dark-mode")) {
       theme = "dark";
     }
-    StorageService.store("theme", theme);
-  }
+    ThemeService.setTheme(theme);
+  };
+
+  return (
+    <div id="darkModeToggle" title="dark mode toggle">
+      <label>
+        <input type="checkbox" defaultChecked={isLightMode} onChange={(event) => toggleTheme(event)}></input>
+        <span className="slider"></span>
+      </label>
+    </div>
+  );
 }
 
 export default DarkModeToggle;

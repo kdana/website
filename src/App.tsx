@@ -1,5 +1,4 @@
 import React from "react";
-import DarkModeToggle from "./dark-mode-toggle/DarkModeToggle";
 import logo from "./logo.svg";
 import "./App.css";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
@@ -7,6 +6,10 @@ import PortfolioMenu from "./menu/PortfolioMenu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function App() {
+  const theme = createTheme({
+    palette: { mode: "dark" }
+  });
+
   /**
     Parallax Header
     Copyright (c) 2022 by Ryan Kelly (https://codepen.io/sixtyfourthirtytwo/pen/zbxrPG)
@@ -18,7 +21,8 @@ function App() {
   */
   return (
     <div>
-      <ThemeProvider theme={darkTheme}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Consolas:400,500,600,700" />
+      <ThemeProvider theme={theme}>
         <ParallaxProvider>
           <PortfolioMenu />
 
@@ -47,14 +51,5 @@ function App() {
     </div>
   );
 }
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#1976d2"
-    }
-  }
-});
 
 export default App;
