@@ -1,7 +1,7 @@
 import React from "react";
-import ThemeService from "../services/ThemeService";
+import ThemeService from "../../services/ThemeService";
 import "./DarkModeToggle.css";
-import "./../themes/darkMode.css";
+import "../../themes/darkMode.css";
 
 interface Props {}
 
