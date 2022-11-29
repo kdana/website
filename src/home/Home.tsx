@@ -1,7 +1,8 @@
 import React from "react";
 import logo from "../logo.svg";
 import "./Home.css";
-import { ParallaxProvider, Parallax } from "react-scroll-parallax";
+import EarthRotateVideo from "./EarthRotateVideo.mp4";
+import { ParallaxProvider, Parallax, ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 
 function Home() {
   /**
@@ -15,14 +16,26 @@ function Home() {
   */
   return (
     <ParallaxProvider>
-      <div className="parallax__container">
-        <Parallax translateY={[184, -300]}>
-          <h1 className="top-color first-header">WELCOME</h1>
-        </Parallax>
-        <Parallax translateY={[-85, -300]} className="background-text">
-          <h2 className="bottom-color">HELLO WORLD</h2>
-        </Parallax>
-      </div>
+      <ParallaxBanner style={{ aspectRatio: "2 / 1", height: "100vh" }}>
+        <ParallaxBannerLayer>
+          {/* 
+                Free HD Videos - No Copyright
+                Video Source: https://bit.ly/2CbkIcQ 
+            */}
+          <video
+            src={EarthRotateVideo}
+            autoPlay
+            loop
+            muted
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
+          ></video>
+        </ParallaxBannerLayer>
+        <ParallaxBannerLayer className="parallax__container">
+          <Parallax translateY={[30, -50]}>
+            <h1 className="title-header">WELCOME</h1>
+          </Parallax>
+        </ParallaxBannerLayer>
+      </ParallaxBanner>
 
       <section className="App">
         <header className="App-header">
