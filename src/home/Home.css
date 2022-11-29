@@ -36,13 +36,12 @@
 .parallax__container {
   text-align: left;
   margin-left: 15vw;
-  font-size: 3em;
   position: relative;
   font-family: "Consolas", "Courier New", monospace;
 }
 
 .parallax__container .title-header {
   padding-top: 40vh;
-  font-size: 3em;
+  font-size: 13vw;
   color: white;
 }
