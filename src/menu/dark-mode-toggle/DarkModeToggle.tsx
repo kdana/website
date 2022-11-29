@@ -3,9 +3,7 @@ import ThemeService from "../../services/ThemeService";
 import "./DarkModeToggle.css";
 import "../../themes/darkMode.css";
 
-interface Props {}
-
-function DarkModeToggle(props: Props) {
+function DarkModeToggle() {
   const [isLightMode] = React.useState(ThemeService.isLightMode());
 
   /**

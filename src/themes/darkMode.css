@@ -2,12 +2,16 @@
   background-color: #222;
 }
 
+.dark-mode h1 {
+  color: white;
+}
+
 .dark-mode .top-color {
-  color: rgb(200 76 134 / 90%);
+  color: rgb(200 76 134 / 0.9);
 }
 
 .dark-mode .bottom-color {
-  color: rgba(100, 194, 200, 0.6);
+  color: rgba(100, 194, 200, 0.9);
 }
 
 .dark-mode .parallax__container .first-header {
