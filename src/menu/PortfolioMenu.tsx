@@ -7,9 +7,6 @@ import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
 import ComputerIcon from "@mui/icons-material/Computer";
-import Home from "@mui/icons-material/Home";
-import Article from "@mui/icons-material/Article";
-import Apps from "@mui/icons-material/Apps";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -20,13 +17,10 @@ import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DrawerHeader from "./DrawerHeader";
 import DrawerPull from "./DrawerPull";
+import PageService from "../services/PageService";
 
 function PortfolioMenu() {
-  const pages: Map<string, any> = new Map([
-    ["Home", { icon: <Home />, link: "/" }],
-    ["Articles", { icon: <Article />, link: "/articles" }],
-    ["Demos", { icon: <Apps />, link: "/demos" }],
-  ]);
+  const pages = PageService.getPages();
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -74,16 +68,16 @@ function PortfolioMenu() {
               </IconButton>
             </DrawerHeader>
             <List>
-              {[...pages.keys()].map((page) => (
-                <ListItem key={page}>
+              {pages.map((page) => (
+                <ListItem key={page.name}>
                   <ListItemButton
                     onClick={() => {
                       setIsOpen(false);
                     }}
-                    href={pages.get(page).link}
+                    href={page.link}
                   >
-                    <ListItemIcon>{pages.get(page).icon}</ListItemIcon>
-                    <ListItemText primary={page} />
+                    <ListItemIcon>{page.icon}</ListItemIcon>
+                    <ListItemText primary={page.name} />
                   </ListItemButton>
                 </ListItem>
               ))}
@@ -110,16 +104,16 @@ function PortfolioMenu() {
             KDana Development |
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
-            {[...pages.keys()].map((page) => (
+            {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={() => {
                   setIsOpen(false);
                 }}
-                href={pages.get(page).link}
+                href={page.link}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
