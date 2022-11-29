@@ -21,6 +21,7 @@ function FolderCard(props: Props) {
             {props.page.icon}
           </Avatar>
         </CardMedia>
+        <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {props.page.name}
           </Typography>
