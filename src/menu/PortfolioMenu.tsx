@@ -76,7 +76,9 @@ function PortfolioMenu() {
                     }}
                     href={page.link}
                   >
-                    <ListItemIcon>{page.icon}</ListItemIcon>
+                    <ListItemIcon>
+                      <page.icon />
+                    </ListItemIcon>
                     <ListItemText primary={page.name} />
                   </ListItemButton>
                 </ListItem>

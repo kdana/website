@@ -1,7 +1,6 @@
 import React from "react";
 import { Page } from "../services/PageService";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -18,7 +17,7 @@ function FolderCard(props: Props) {
       <CardActionArea href={props.page.link}>
         <CardMedia>
           <Avatar sx={{ height: "50px", width: "100%", borderRadius: "unset", bgcolor: "primary.main" }}>
-            {props.page.icon}
+            <props.page.icon fontSize="large" />
           </Avatar>
         </CardMedia>
         <CardContent>
