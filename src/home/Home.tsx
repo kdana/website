@@ -52,7 +52,7 @@ function Home() {
           {pages
             .filter((page) => page.name !== "Home")
             .map((page) => (
-              <FolderCard page={page}></FolderCard>
+              <FolderCard key={page.name} page={page}></FolderCard>
             ))}
         </Box>
       </Box>
