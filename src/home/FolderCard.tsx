@@ -15,7 +15,7 @@ interface Props {
 function FolderCard(props: Props) {
   return (
     <Card sx={{ maxWidth: 345, height: "fit-content", m: 2 }}>
-      <CardActionArea>
+      <CardActionArea href={props.page.link}>
         <CardMedia>
           <Avatar sx={{ height: "50px", width: "100%", borderRadius: "unset", bgcolor: "primary.main" }}>
             {props.page.icon}
