@@ -1,10 +1,10 @@
 import React from "react";
 import logo from "../logo.svg";
-import "./Home.css";
 import EarthRotateVideo from "./EarthRotateVideo.mp4";
 import { ParallaxProvider, Parallax, ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 import PageService from "../services/PageService";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import FolderCard from "./FolderCard";
 
 function Home() {
@@ -28,7 +28,18 @@ function Home() {
         </ParallaxBannerLayer>
         <ParallaxBannerLayer className="parallax__container">
           <Parallax translateY={[30, -50]}>
-            <h1 className="title-header">WELCOME</h1>
+            <Typography
+              variant="h1"
+              sx={{
+                color: "#fff",
+                fontSize: "13vw",
+                paddingTop: "60vh",
+                fontFamily: '"Consolas", "Courier New", monospace;',
+                marginLeft: "15vw",
+              }}
+            >
+              WELCOME
+            </Typography>
           </Parallax>
         </ParallaxBannerLayer>
       </ParallaxBanner>
