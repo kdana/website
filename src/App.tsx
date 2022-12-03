@@ -17,7 +17,7 @@ function App() {
         <PortfolioMenu />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/*" element={<Home />} />
             <Route path="/articles/" element={<Articles />} />
             <Route path="/demos/" element={<Demos />} />
           </Routes>
