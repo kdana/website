@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PortfolioMenu from "./menu/PortfolioMenu";
 import Home from "./home/Home";
@@ -15,6 +16,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <SkipLink skipTo="#mainContent"></SkipLink>
         <PortfolioMenu />
         <div id="mainContent">
