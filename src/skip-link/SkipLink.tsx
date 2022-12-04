@@ -11,27 +11,33 @@ export interface Props {
 }
 
 function SkipLink(props: Props) {
-  const [showLink, setShowLink] = React.useState(false);
+  const [transition, setTransition] = React.useState("ease-out");
+  const [transform, setTransform] = React.useState("translateY(-100%)");
   const theme = useTheme();
 
   return (
     <Link
+      className="skip-link"
       href={props.skipTo}
-      className="SkipLink"
-      title="Skip to Main Content"
-      onFocus={() => {
-        setShowLink(true);
+      onFocus={(event) => {
+        setTransform("unset");
+        setTransition("ease-in");
       }}
-      onBlur={() => {
-        setShowLink(false);
+      onBlur={(event) => {
+        setTransform("translateY(-100%)");
+        setTransition("ease-out");
       }}
-      sx={{ position: "absolute", zIndex: 1200, color: theme.palette.text.primary }}
+      sx={{
+        position: "absolute",
+        zIndex: 1200,
+        transition: "transform .2s",
+        transitionTimingFunction: transition,
+        transform: transform,
+      }}
     >
-      <Slide direction="down" in={showLink}>
-        <Paper variant="outlined" sx={{ padding: 2 }}>
-          Skip to Main Content
-        </Paper>
-      </Slide>
+      <Paper variant="outlined" sx={{ padding: 2, color: theme.palette.text.primary }}>
+        Skip to Main Content
+      </Paper>
     </Link>
   );
 }
