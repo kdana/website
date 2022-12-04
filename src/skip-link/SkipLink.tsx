@@ -1,9 +1,6 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import Slide from "@mui/material/Slide";
 import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 
 export interface Props {

@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../logo.svg";
 import EarthRotateVideo from "./EarthRotateVideo.mp4";
 import { ParallaxProvider, Parallax, ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 import PageService from "../services/PageService";
