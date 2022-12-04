@@ -1,4 +1,5 @@
 import React from "react";
+import { Theme } from "@mui/material/styles";
 import ThemeService from "../../services/ThemeService";
 import "./DarkModeToggle.css";
 
@@ -22,9 +23,11 @@ function DarkModeToggle() {
     event.stopPropagation();
     document.body.classList.toggle("dark-mode");
 
-    let theme = "light";
+    let theme: Theme;
     if (document.body.classList.contains("dark-mode")) {
-      theme = "dark";
+      theme = ThemeService.getDarkTheme();
+    } else {
+      theme = ThemeService.getLightTheme();
     }
     ThemeService.setTheme(theme);
   };
