@@ -1,44 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Theme } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import SvgIcon from "@mui/material/SvgIcon";
+import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
+import SettingsBrightness from "@mui/icons-material/SettingsBrightness";
+import LightMode from "@mui/icons-material/LightMode";
 import ThemeService from "../../services/ThemeService";
-import "./DarkModeToggle.css";
+
+export interface ThemeOption {
+  index: number;
+  theme: Theme | null;
+  icon: typeof SvgIcon;
+}
 
 function DarkModeToggle() {
-  const [isLightMode] = React.useState(ThemeService.isLightMode());
-
-  /**
-    Copyright (c) 2022 by Álvaro (https://codepen.io/alvarotrigo/pen/zYPydpB)
-    Fork of an original work Toggle Switch (https://codepen.io/fydsa/pen/abwdpep
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-  if (!isLightMode) {
-    document.body.classList.add("dark-mode");
-  }
-
-  const toggleTheme = function (event: React.ChangeEvent) {
-    event.stopPropagation();
-    document.body.classList.toggle("dark-mode");
-
-    let theme: Theme;
-    if (document.body.classList.contains("dark-mode")) {
-      theme = ThemeService.getDarkTheme();
-    } else {
-      theme = ThemeService.getLightTheme();
-    }
-    ThemeService.setTheme(theme);
+  const options = [
+    { index: 0, name: "System Mode", theme: null, icon: SettingsBrightness },
+    { index: 1, name: "Dark Mode", theme: ThemeService.getDarkTheme(), icon: DarkModeOutlined },
+    { index: 2, name: "Light Mode", theme: ThemeService.getLightTheme(), icon: LightMode },
+  ];
+  const [selectedOption, setSelectedOption] = useState(
+    options.find((option) => option.theme?.palette.mode === ThemeService.getTheme()?.palette.mode) || options[0]
+  );
+  const toggleTheme = function () {
+    setSelectedOption((previousOption) => {
+      let option = previousOption ? options[(previousOption.index + 1) % 3] : options[0];
+      ThemeService.setTheme(option.theme);
+      return option;
+    });
   };
 
   return (
-    <div id="darkModeToggle" title="dark mode toggle">
-      <label>
-        <input type="checkbox" defaultChecked={isLightMode} onChange={(event) => toggleTheme(event)}></input>
-        <span className="slider"></span>
-      </label>
-    </div>
+    <IconButton title={selectedOption.name} sx={{ ml: 1 }} onClick={toggleTheme} color="inherit">
+      <selectedOption.icon />
+    </IconButton>
   );
 }
 
