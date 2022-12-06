@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ThemeProvider, Theme, createTheme } from "@mui/material/styles";
+import { ThemeProvider, Theme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -9,6 +9,22 @@ import Articles from "./articles/Articles";
 import Demos from "./demos/Demos";
 import SkipLink from "./skip-link/SkipLink";
 import ThemeService, { theme$ } from "./services/ThemeService";
+import Calculator from "./demos/utilities/Calculator";
+import Whiteboard from "./demos/utilities/Whiteboard";
+import Platformer from "./demos/games/Platformer";
+import Bees from "./demos/games/Bees";
+
+console.log(
+  `%c
+╔═╗     ╔═╗ ╔═════╗ ╔═╗       ╔═════╗  ╔═════╗  ╔══╗   ╔══╗ ╔═════╗
+██║ ╔═╗ ██║ ██████╝ ██║      ╔██████╝ ╔██████╚╗ ███╚╗  ███║ ██████╝
+██║╔██╚╗██║ ██║     ██║      ██║      ██║   ██║ ████║ ████║ ██║    
+██╚████╚██║ ████║   ██║      ██║      ██║   ██║ ██╔████╔██║ ████║  
+████╝ ████║ ██╚═══╗ ██╚════╗ ██╚════╗ ██║   ██║ ██║╚██╔╝██║ ██╚═══╗
+███╝   ███╝ ██████╝ ███████╝  ██████╝  ██████╝  ██╝ ╚═╝ ██╝ ██████╝
+`,
+  "color: #e65100"
+);
 
 function App() {
   const [theme, setTheme] = useState(ThemeService.getTheme() || ThemeService.getDarkTheme());
@@ -39,6 +55,10 @@ function App() {
               <Route path="/*" element={<Home />} />
               <Route path="/articles/" element={<Articles />} />
               <Route path="/demos/" element={<Demos />} />
+              <Route path="/demos/calculator" element={<Calculator />} />
+              <Route path="/demos/whiteboard" element={<Whiteboard />} />
+              <Route path="/demos/platformer" element={<Platformer />} />
+              <Route path="/demos/bees" element={<Bees />} />
             </Routes>
           </BrowserRouter>
         </div>
