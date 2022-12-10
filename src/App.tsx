@@ -31,11 +31,13 @@ function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   useEffect(() => {
-    function handleThemeChange(theme: Theme | null) {
-      if (!theme) {
-        theme = prefersDarkMode ? ThemeService.getDarkTheme() : ThemeService.getLightTheme();
+    function handleThemeChange(newTheme: Theme | null) {
+      if (!newTheme) {
+        newTheme = prefersDarkMode ? ThemeService.getDarkTheme() : ThemeService.getLightTheme();
       }
-      setTheme(theme);
+      if (newTheme.palette.mode !== theme.palette.mode) {
+        setTheme(newTheme);
+      }
     }
     const subscription = theme$.subscribe(handleThemeChange);
     return function cleanup() {
