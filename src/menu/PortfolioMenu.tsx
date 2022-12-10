@@ -39,7 +39,7 @@ function PortfolioMenu() {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex" } }}></Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" } }}></Box>
           <SwipeableDrawer
             id="menu-appbar"
             anchor="left"
