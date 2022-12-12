@@ -140,6 +140,10 @@ function Calculator() {
       let lastItemIndex = calculation.length - 1;
       let lastItem = calculation[lastItemIndex];
 
+      if (symbols.includes(calculation[lastItemIndex])) {
+        return previous;
+      }
+
       lastItem = lastItem.startsWith("-") ? lastItem.replace("-", "") : "-" + lastItem;
       calculation[lastItemIndex] = lastItem;
 
