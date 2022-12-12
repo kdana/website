@@ -19,7 +19,28 @@ const Display = styled(Paper)(({ theme }) => ({
 
 function Calculator() {
   const symbols = ["/", "*", "-", "+"];
-  const buttons = ["7", "8", "9", "÷", "4", "5", "6", "×", "1", "2", "3", "-", "0", ".", "+/-", "+"];
+  const buttons = [
+    "(",
+    ")",
+    "C",
+    "⌫",
+    "7",
+    "8",
+    "9",
+    "÷",
+    "4",
+    "5",
+    "6",
+    "×",
+    "1",
+    "2",
+    "3",
+    "-",
+    "0",
+    ".",
+    "+/-",
+    "+",
+  ];
   const [calculation, setCalculation] = useState(["0"]);
 
   const useEventListener = (eventName: string, handler: Function, element = window) => {
@@ -55,6 +76,7 @@ function Calculator() {
     let symbolMap: Map<string, string> = new Map([
       ["÷", "/"],
       ["×", "*"],
+      ["⌫", "Backspace"],
     ]);
     handleValue(symbolMap.get(value) || value);
   };
@@ -66,6 +88,12 @@ function Calculator() {
       handleNumber(value);
     } else if (value === "+/-") {
       handleNegation();
+    } else if (value === "(" || value === ")") {
+      handleParentheses(value);
+    } else if (value === "Backspace") {
+      handleBackspace();
+    } else if (value === "C") {
+      setCalculation(["0"]);
     }
   };
 
@@ -84,6 +112,8 @@ function Calculator() {
     });
   };
 
+  const isNumeric = (value: string) => value.trim() !== "" && !isNaN(Number(value));
+
   const handleNumber = (numberValue: string) => {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
@@ -92,8 +122,10 @@ function Calculator() {
 
       if (lastItem === "0") {
         calculation[lastItemIndex] = numberValue;
-      } else if (!symbols.includes(lastItem)) {
+      } else if (isNumeric(lastItem)) {
         calculation[lastItemIndex] = lastItem + numberValue;
+      } else if (lastItem === ")") {
+        calculation.push(...["*", numberValue]);
       } else {
         calculation.push(numberValue);
       }
@@ -112,6 +144,40 @@ function Calculator() {
       calculation[lastItemIndex] = lastItem;
 
       return calculation;
+    });
+  };
+
+  const handleParentheses = (value: string) => {
+    setCalculation((previous: string[]) => {
+      let calculation = [...previous];
+      let lastItemIndex = calculation.length - 1;
+      let lastItem = calculation[lastItemIndex];
+
+      if (value === "(" && isNumeric(lastItem)) {
+        calculation.push(...["*", value]);
+      } else if (value === ")" && symbols.includes(lastItem)) {
+        calculation[lastItemIndex] = value;
+      } else {
+        calculation.push(value);
+      }
+
+      return calculation;
+    });
+  };
+
+  const handleBackspace = () => {
+    setCalculation((previous: string[]) => {
+      let calculation = [...previous];
+      let lastItemIndex = calculation.length - 1;
+      let lastItem = calculation[lastItemIndex].slice(0, -1);
+
+      if (lastItem === "") {
+        calculation.pop();
+      } else {
+        calculation[lastItemIndex] = lastItem;
+      }
+
+      return calculation.length === 0 ? ["0"] : calculation;
     });
   };
 
