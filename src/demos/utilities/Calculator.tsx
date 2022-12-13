@@ -18,6 +18,7 @@ const Display = styled(Paper)(({ theme }) => ({
 }));
 
 function Calculator() {
+  const toolbarRef: React.MutableRefObject<any> = useRef(null);
   const symbols = ["/", "*", "-", "+"];
   const buttons = [
     "(",
@@ -41,7 +42,18 @@ function Calculator() {
     "+/-",
     "+",
   ];
-  const [calculation, setCalculation] = useState(["0"]);
+  const [calculation, setCalculation] = useState<string[]>([]);
+  const [displayMessage, setDisplayMessage] = useState("0");
+  const hasErrorRef = useRef(false);
+
+  useEffect(() => {
+    if (hasErrorRef.current) {
+      // skip overwriting error message and reset for next calculation update
+      hasErrorRef.current = false;
+    } else {
+      setDisplayMessage(formatCalculation(calculation));
+    }
+  }, [calculation]);
 
   const useEventListener = (eventName: string, handler: Function, element = window) => {
     const savedHandler: React.MutableRefObject<Function> = useRef(handler);
@@ -93,7 +105,7 @@ function Calculator() {
     } else if (value === "Backspace") {
       handleBackspace();
     } else if (value === "C") {
-      setCalculation(["0"]);
+      setCalculation([]);
     }
   };
 
@@ -101,8 +113,9 @@ function Calculator() {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
       let lastItemIndex = calculation.length - 1;
+      let lastItem = lastItemIndex < 0 ? null : calculation[lastItemIndex];
 
-      if (symbols.includes(calculation[lastItemIndex])) {
+      if (lastItem && symbols.includes(lastItem)) {
         calculation[lastItemIndex] = symbol;
       } else {
         calculation.push(symbol);
@@ -118,11 +131,11 @@ function Calculator() {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
       let lastItemIndex = calculation.length - 1;
-      let lastItem = calculation[lastItemIndex];
+      let lastItem = lastItemIndex < 0 ? null : calculation[lastItemIndex];
 
       if (lastItem === "0") {
         calculation[lastItemIndex] = numberValue;
-      } else if (isNumeric(lastItem)) {
+      } else if (lastItem && isNumeric(lastItem)) {
         calculation[lastItemIndex] = lastItem + numberValue;
       } else if (lastItem === ")") {
         calculation.push(...["*", numberValue]);
@@ -138,8 +151,11 @@ function Calculator() {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
       let lastItemIndex = calculation.length - 1;
-      let lastItem = calculation[lastItemIndex];
+      if (lastItemIndex < 0) {
+        return previous;
+      }
 
+      let lastItem = calculation[lastItemIndex];
       if (symbols.includes(calculation[lastItemIndex])) {
         return previous;
       }
@@ -155,11 +171,11 @@ function Calculator() {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
       let lastItemIndex = calculation.length - 1;
-      let lastItem = calculation[lastItemIndex];
+      let lastItem = lastItemIndex < 0 ? null : calculation[lastItemIndex];
 
-      if (value === "(" && isNumeric(lastItem)) {
+      if (lastItem && value === "(" && isNumeric(lastItem)) {
         calculation.push(...["*", value]);
-      } else if (value === ")" && symbols.includes(lastItem)) {
+      } else if (lastItem && value === ")" && symbols.includes(lastItem)) {
         calculation[lastItemIndex] = value;
       } else {
         calculation.push(value);
@@ -173,25 +189,34 @@ function Calculator() {
     setCalculation((previous: string[]) => {
       let calculation = [...previous];
       let lastItemIndex = calculation.length - 1;
-      let lastItem = calculation[lastItemIndex].slice(0, -1);
+      if (lastItemIndex < 0) {
+        return previous;
+      }
 
+      let lastItem = calculation[lastItemIndex].slice(0, -1);
       if (lastItem === "") {
         calculation.pop();
       } else {
         calculation[lastItemIndex] = lastItem;
       }
 
-      return calculation.length === 0 ? ["0"] : calculation;
+      return calculation;
     });
   };
 
   const calculate = () => {
-    const result = eval(formatCalculation(calculation));
-    setCalculation([result.toString()]);
+    try {
+      const result = [eval(calculation.join(" ")).toString()];
+      setCalculation(result);
+    } catch (ex) {
+      hasErrorRef.current = true;
+      setDisplayMessage("Error");
+      setCalculation([]);
+    }
   };
 
   const formatCalculation = (calculation: string[]) => {
-    return calculation.join(" ");
+    return calculation.length ? calculation.join(" ") : "0";
   };
 
   return (
@@ -200,7 +225,6 @@ function Calculator() {
         <Grid container spacing={0}>
           <Grid item xs={12}>
             <Display>
-              <Typography variant="h4">{formatCalculation(calculation)}</Typography>
             </Display>
           </Grid>
           {buttons.map((button) => (
@@ -213,6 +237,7 @@ function Calculator() {
                 sx={{ textTransform: "unset", height: "100%" }}
               >
                 <Typography variant="h5">{button}</Typography>
+                <Typography variant="h4">{displayMessage}</Typography>
               </Button>
             </Grid>
           ))}
