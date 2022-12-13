@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { styled } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -8,13 +9,21 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 
 const Display = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#eee",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "right",
   color: theme.palette.text.secondary,
-  minHeight: "2rem",
-  height: "100%",
+  minHeight: "100%",
+  height: `${
+    2 * parseFloat(theme.typography.h4.fontSize as string) + parseFloat(theme.typography.h4.lineHeight as string) / 2
+  }rem`,
+  alignContent: "flex-end",
+  display: "flex",
+  flexWrap: "wrap",
+  flexDirection: "column-reverse",
+  overflowWrap: "anywhere",
+  overflow: "auto",
 }));
 
 function Calculator() {
@@ -44,6 +53,7 @@ function Calculator() {
   ];
   const [calculation, setCalculation] = useState<string[]>([]);
   const [displayMessage, setDisplayMessage] = useState("0");
+  const [topbarHeight, setTopbarHeight] = useState(0);
   const hasErrorRef = useRef(false);
 
   useEffect(() => {
@@ -54,6 +64,11 @@ function Calculator() {
       setDisplayMessage(formatCalculation(calculation));
     }
   }, [calculation]);
+
+  useLayoutEffect(() => {
+    let height = toolbarRef.current?.clientHeight || 0;
+    setTopbarHeight(height);
+  }, []);
 
   const useEventListener = (eventName: string, handler: Function, element = window) => {
     const savedHandler: React.MutableRefObject<Function> = useRef(handler);
@@ -220,34 +235,55 @@ function Calculator() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: "600px", margin: "auto" }}>
-      <ButtonGroup size="large" fullWidth={true} sx={{ minHeight: "85vh" }} aria-label="Calculator button group">
-        <Grid container spacing={0}>
-          <Grid item xs={12}>
-            <Display>
-            </Display>
-          </Grid>
-          {buttons.map((button) => (
-            <Grid key={button} item xs={3}>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  handleClick(button);
-                }}
-                sx={{ textTransform: "unset", height: "100%" }}
-              >
-                <Typography variant="h5">{button}</Typography>
-                <Typography variant="h4">{displayMessage}</Typography>
+    <Box
+      sx={{
+        maxWidth: "600px",
+        height: "100vh",
+        m: "auto",
+        mt: `${-2 * topbarHeight}px`,
+        pt: `${topbarHeight}px`,
+      }}
+    >
+      <Toolbar ref={toolbarRef} />
+      <Box
+        sx={{
+          display: "flex",
+          margin: "auto",
+          height: "100%",
+        }}
+      >
+        <ButtonGroup size="large" fullWidth={true} aria-label="Calculator button group">
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              <Display>
+                <Typography variant="h4" component="p" aria-label="result">
+                  {displayMessage}
+                </Typography>
+              </Display>
+            </Grid>
+            {buttons.map((button) => (
+              <Grid key={button} item xs={3}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    handleClick(button);
+                  }}
+                  sx={{ textTransform: "unset", height: "100%" }}
+                >
+                  <Typography variant="h5" component="p">
+                    {button}
+                  </Typography>
+                </Button>
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <Button variant="contained" onClick={calculate} sx={{ height: "100%" }}>
+                <Typography variant="h5">=</Typography>
               </Button>
             </Grid>
-          ))}
-          <Grid item xs={12}>
-            <Button variant="contained" onClick={calculate} sx={{ height: "100%" }}>
-              <Typography variant="h5">=</Typography>
-            </Button>
           </Grid>
-        </Grid>
-      </ButtonGroup>
+        </ButtonGroup>
+      </Box>
     </Box>
   );
 }
