@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -27,7 +26,7 @@ const Display = styled(Paper)(({ theme }) => ({
 }));
 
 function Calculator() {
-  const toolbarRef: React.MutableRefObject<any> = useRef(null);
+  const toolbarRef: React.MutableRefObject<any> = useRef(document.querySelector(".appBar"));
   const symbols = ["/", "*", "-", "+"];
   const buttons = [
     "(",
@@ -66,8 +65,7 @@ function Calculator() {
   }, [calculation]);
 
   useLayoutEffect(() => {
-    let height = toolbarRef.current?.clientHeight || 0;
-    setTopbarHeight(height);
+    setTopbarHeight(toolbarRef.current?.clientHeight || 0);
   }, []);
 
   const useEventListener = (eventName: string, handler: Function, element = window) => {
@@ -240,11 +238,10 @@ function Calculator() {
         maxWidth: "600px",
         height: "100vh",
         m: "auto",
-        mt: `${-2 * topbarHeight}px`,
+        mt: `-${topbarHeight}px`,
         pt: `${topbarHeight}px`,
       }}
     >
-      <Toolbar ref={toolbarRef} />
       <Box
         sx={{
           display: "flex",

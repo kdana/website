@@ -10,7 +10,7 @@ import Demos from "./demos/Demos";
 import SkipLink from "./skip-link/SkipLink";
 import ThemeService, { theme$ } from "./services/ThemeService";
 import Calculator from "./demos/utilities/Calculator";
-import Whiteboard from "./demos/utilities/Whiteboard";
+import Whiteboard from "./demos/utilities/whiteboard/Whiteboard";
 import Platformer from "./demos/games/Platformer";
 import Bees from "./demos/games/Bees";
 
